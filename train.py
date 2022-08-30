@@ -53,7 +53,7 @@ def main():
     config = parse_args()
     seed_everything(config.seed)
     dm = DATASETS[config.dataset](config)
-    model = Model(MODELS[config.model], config)
+    model = Model(MODELS[config.model](), config)
     callbacks = []
     callbacks.append(LearningRateMonitor(logging_interval="step"))
     callbacks.append(
