@@ -55,7 +55,9 @@ def main():
     config = parse_args()
     seed_everything(config.seed)
     dm = DATASETS[config.dataset](config)
-    model = Model(MODELS[config.model](), config)
+    dm.prepare_data()
+    dm.setup()
+    model = Model(MODELS[config.model](dm.num_classes), config)
     callbacks = []
     callbacks.append(LearningRateMonitor(logging_interval="step"))
     callbacks.append(

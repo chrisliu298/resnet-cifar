@@ -70,6 +70,7 @@ class CIFAR10DataModule(DataModule):
         self.test_dataset = datasets.CIFAR10(
             "/tmp/data", train=False, transform=test_transforms
         )
+        self.num_classes = len(set(self.train_dataset.targets))
 
 
 class CIFAR100DataModule(DataModule):
@@ -102,3 +103,4 @@ class CIFAR100DataModule(DataModule):
         self.test_dataset = datasets.CIFAR100(
             "/tmp/data", train=False, transform=test_transforms
         )
+        self.num_classes = len(set(self.train_dataset.targets))
