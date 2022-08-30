@@ -43,6 +43,7 @@ class DataModule(LightningDataModule):
 class CIFAR10DataModule(DataModule):
     def __init__(self, config):
         super().__init__(config)
+        self.num_classes = 10
 
     def prepare_data(self):
         datasets.CIFAR10("/tmp/data", train=True, download=True)
@@ -70,12 +71,12 @@ class CIFAR10DataModule(DataModule):
         self.test_dataset = datasets.CIFAR10(
             "/tmp/data", train=False, transform=test_transforms
         )
-        self.num_classes = len(set(self.train_dataset.targets))
 
 
 class CIFAR100DataModule(DataModule):
     def __init__(self, config):
         super().__init__(config)
+        self.num_classes = 100
 
     def prepare_data(self):
         datasets.CIFAR100("/tmp/data", train=True, download=True)
@@ -103,4 +104,3 @@ class CIFAR100DataModule(DataModule):
         self.test_dataset = datasets.CIFAR100(
             "/tmp/data", train=False, transform=test_transforms
         )
-        self.num_classes = len(set(self.train_dataset.targets))
