@@ -2,7 +2,7 @@ import argparse
 
 import wandb
 from easydict import EasyDict as edict
-from pytorch_lightning import Trainer
+from pytorch_lightning import Trainer, seed_everything
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 
@@ -43,12 +43,14 @@ def parse_args():
     parser.add_argument("--fp16", action="store_true")
     # experiment
     parser.add_argument("--wandb", action="store_true")
+    parser.add_argument("--seed", type=int, default=42)
     config = edict(vars(parser.parse_args()))
     return config
 
 
 def main():
     config = parse_args()
+    seed_everything(config.seed)
     dm = DATASETS[config.dataset](config)
     model = Model(MODELS[config.model], config)
     callbacks = []
