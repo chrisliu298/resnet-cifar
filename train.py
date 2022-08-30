@@ -7,7 +7,7 @@ from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 
 from data import CIFAR10DataModule, CIFAR100DataModule
-from model import MODELS, Model
+from model import Model
 from models import *
 
 DATASETS = {"cifar10": CIFAR10DataModule, "cifar100": CIFAR100DataModule}
