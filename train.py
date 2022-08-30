@@ -9,6 +9,7 @@ from pytorch_lightning.loggers import WandbLogger
 from data import CIFAR10DataModule, CIFAR100DataModule
 from model import Model
 from models import *
+from utils import ThresholdStopping
 
 DATASETS = {"cifar10": CIFAR10DataModule, "cifar100": CIFAR100DataModule}
 MODELS = {
@@ -42,6 +43,7 @@ def parse_args():
     parser.add_argument("--lr_decay_interval", type=int)
     parser.add_argument("--momentum", type=float, default=0.0)
     parser.add_argument("--fp16", action="store_true")
+    parser.add_argument("--stop_early", action="store_true")
     # experiment
     parser.add_argument("--wandb", action="store_true")
     parser.add_argument("--seed", type=int, default=42)
@@ -64,6 +66,8 @@ def main():
             mode="max",
         ),
     )
+    if config.stop_early:
+        callbacks.append(ThresholdStopping(monitor="avg_train_acc", threshold=1.0))
     logger = WandbLogger(
         offline=not config.wandb,
         project=config.project_id,
