@@ -81,7 +81,7 @@ class CIFAR100DataModule(DataModule):
         datasets.CIFAR100("/tmp/data", train=True, download=True)
         datasets.CIFAR100("/tmp/data", train=False, download=True)
 
-    def setup(self, stage):
+    def setup(self, stage=None):
         # calculate mean and std
         train_images = datasets.CIFAR100("/tmp/data", train=True, download=True).data
         means = (np.mean(train_images, axis=(0, 1, 2)) / 255).round(4).tolist()
