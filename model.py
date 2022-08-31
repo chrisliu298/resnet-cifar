@@ -107,14 +107,12 @@ class Model(LightningModule):
         )
         if self.config.lr_decay_interval is None:
             return opt
-        # inverse square root decay
-        lr_schedule = lambda t: 1 / math.sqrt(
-            1 + math.floor(t / self.config.lr_decay_interval)
+        sch = optim.lr_scheduler.StepLR(
+            opt, step_size=self.config.lr_decay_interval, gamma=0.2
         )
-        sch = optim.lr_scheduler.LambdaLR(opt, lr_lambda=lr_schedule)
         return {
             "optimizer": opt,
-            "lr_scheduler": {"scheduler": sch, "interval": "step", "frequency": 1},
+            "lr_scheduler": {"scheduler": sch, "interval": "epoch", "frequency": 1},
         }
 
     @torch.no_grad()
